@@ -10,9 +10,9 @@ export class PrismaAnswerCommentMapper {
 
     return AnswerComment.create(
       {
-        answerId: new UniqueEntityID(raw.answerId),
         content: raw.content,
         authorId: new UniqueEntityID(raw.authorId),
+        answerId: new UniqueEntityID(raw.answerId),
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -21,14 +21,15 @@ export class PrismaAnswerCommentMapper {
   }
 
   static toPrisma(
-    answercomment: AnswerComment,
+    answerComment: AnswerComment,
   ): Prisma.CommentUncheckedCreateInput {
     return {
-      id: answercomment.id.toString(),
-      authorId: answercomment.authorId.toString(),
-      content: answercomment.content,
-      createdAt: answercomment.createdAt,
-      updatedAt: answercomment.updatedAt,
+      id: answerComment.id.toString(),
+      authorId: answerComment.authorId.toString(),
+      answerId: answerComment.answerId.toString(),
+      content: answerComment.content,
+      createdAt: answerComment.createdAt,
+      updatedAt: answerComment.updatedAt,
     }
   }
 }
