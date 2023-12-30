@@ -1,7 +1,7 @@
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { EditQuestionUseCase } from './edit-question'
-import { makeQuestions } from 'test/factories/make-questions'
+import { makeQuestion } from 'test/factories/make-questions'
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id'
 import { NotAllowedError } from 'src/core/errors/errors/not-allowed-error'
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
@@ -24,7 +24,7 @@ describe('Edit Question', () => {
   })
 
   it('should be able to edit a question', async () => {
-    const newQuestion = makeQuestions(
+    const newQuestion = makeQuestion(
       {
         authorId: new UniqueEntityID('author-1'),
       },
@@ -69,7 +69,7 @@ describe('Edit Question', () => {
   })
 
   it('should be not able to edit a question from another user', async () => {
-    const newQuestion = makeQuestions(
+    const newQuestion = makeQuestion(
       {
         authorId: new UniqueEntityID('author-1'),
       },

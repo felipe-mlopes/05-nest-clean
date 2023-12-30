@@ -1,7 +1,7 @@
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { CommentOnQuestionUseCase } from './comment-on-question'
-import { makeQuestions } from 'test/factories/make-questions'
+import { makeQuestion } from 'test/factories/make-questions'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
@@ -26,7 +26,7 @@ describe('Comment on Question', () => {
   })
 
   it('should be able to comment on question', async () => {
-    const question = makeQuestions()
+    const question = makeQuestion()
 
     await inMemoryQuestionsRepository.create(question)
 

@@ -1,6 +1,6 @@
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { DeleteAnswerUseCase } from './delete-answer'
-import { makeAnswers } from 'test/factories/make-answers'
+import { makeAnswer } from 'test/factories/make-answers'
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id'
 import { NotAllowedError } from 'src/core/errors/errors/not-allowed-error'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
@@ -21,7 +21,7 @@ describe('Delete Answer', () => {
   })
 
   it('should be able to delete a answer', async () => {
-    const newAnswer = makeAnswers(
+    const newAnswer = makeAnswer(
       {
         authorId: new UniqueEntityID('author-1'),
       },
@@ -51,7 +51,7 @@ describe('Delete Answer', () => {
   })
 
   it('should be not able to delete a answer from another user', async () => {
-    const newAnswer = makeAnswers(
+    const newAnswer = makeAnswer(
       {
         authorId: new UniqueEntityID('author-1'),
       },

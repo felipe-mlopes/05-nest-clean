@@ -3,14 +3,14 @@ import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memo
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { OnAnswerCreated } from './on-answer-created'
-import { makeAnswers } from 'test/factories/make-answers'
+import { makeAnswer } from 'test/factories/make-answers'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notification-repository'
 import {
   SendNotificationUseCase,
   SendNotificationUseCaseRequest,
   SendNotificationUseCaseResponse,
 } from '../use-cases/send-notification'
-import { makeQuestions } from 'test/factories/make-questions'
+import { makeQuestion } from 'test/factories/make-questions'
 import { SpyInstance } from 'vitest'
 import { waitFor } from 'test/utils/wait-for'
 
@@ -51,8 +51,8 @@ describe('On Answer Created', () => {
   })
 
   it('should send a notification when an answer is created', async () => {
-    const question = makeQuestions()
-    const answer = makeAnswers({
+    const question = makeQuestion()
+    const answer = makeAnswer({
       questionId: question.id,
     })
 
