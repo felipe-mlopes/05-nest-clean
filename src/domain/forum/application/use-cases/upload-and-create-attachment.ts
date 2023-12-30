@@ -1,6 +1,6 @@
 import { Either, left, right } from 'src/core/either'
 import { Attachment } from '../../enterprise/entities/attachment'
-import { InvalidAttachmentInvalidError } from './errors/invalid-attachment-type-error'
+import { InvalidAttachmentTypeError } from './errors/invalid-attachment-type-error'
 import { AttachmentsRepository } from '../repositories/attachments-repository'
 import { Updloader } from '../storage/uploader'
 
@@ -11,7 +11,7 @@ interface UploadAndCreateAttachmentsRequest {
 }
 
 type UploadAndCreateAttachmentsResponse = Either<
-  InvalidAttachmentInvalidError,
+  InvalidAttachmentTypeError,
   {
     attachment: Attachment
   }
@@ -29,7 +29,7 @@ export class UploadAndCreateAttachmentsUseCase {
     body,
   }: UploadAndCreateAttachmentsRequest): Promise<UploadAndCreateAttachmentsResponse> {
     if (!/^(image\/(jpeg|png))$|application\/pdf$/.test(fileType)) {
-      return left(new InvalidAttachmentInvalidError(fileType))
+      return left(new InvalidAttachmentTypeError(fileType))
     }
 
     const { url } = await this.uploader.upload({
