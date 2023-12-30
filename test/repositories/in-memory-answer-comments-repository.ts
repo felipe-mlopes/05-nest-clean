@@ -29,9 +29,9 @@ export class InMemoryAnswerCommentsRepository
     this.items.push(answerComment)
   }
 
-  async delete(questionComment: AnswerComment) {
+  async delete(answerComment: AnswerComment) {
     const itemIndex = this.items.findIndex(
-      (item) => item.id === questionComment.id,
+      (item) => item.id === answerComment.id,
     )
 
     this.items.splice(itemIndex, 1)
