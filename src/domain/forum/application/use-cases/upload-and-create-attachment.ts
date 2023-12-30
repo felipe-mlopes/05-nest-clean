@@ -1,0 +1,52 @@
+import { Either, left, right } from 'src/core/either'
+import { Attachment } from '../../enterprise/entities/attachment'
+import { InvalidAttachmentInvalidError } from './errors/invalid-attachment-type-error'
+import { AttachmentsRepository } from '../repositories/attachments-repository'
+import { Updloader } from '../storage/uploader'
+
+interface UploadAndCreateAttachmentsRequest {
+  fileName: string
+  fileType: string
+  body: Buffer
+}
+
+type UploadAndCreateAttachmentsResponse = Either<
+  InvalidAttachmentInvalidError,
+  {
+    attachment: Attachment
+  }
+>
+
+export class UploadAndCreateAttachmentsUseCase {
+  constructor(
+    private attachmentsRepository: AttachmentsRepository,
+    private uploader: Updloader,
+  ) {}
+
+  async execute({
+    fileName,
+    fileType,
+    body,
+  }: UploadAndCreateAttachmentsRequest): Promise<UploadAndCreateAttachmentsResponse> {
+    if (!/^(image\/(jpeg|png))$|application\/pdf$/.test(fileType)) {
+      return left(new InvalidAttachmentInvalidError(fileType))
+    }
+
+    const { url } = await this.uploader.upload({
+      fileName,
+      fileType,
+      body,
+    })
+
+    const attachment = Attachment.create({
+      title: fileName,
+      url,
+    })
+
+    await this.attachmentsRepository.create(attachment)
+
+    return right({
+      attachment,
+    })
+  }
+}
