@@ -48,9 +48,7 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       skip: (page - 1) * 20,
     })
 
-    return questions.map((question) => {
-      return PrismaQuestionMapper.toDomain(question)
-    })
+    return questions.map((question) => PrismaQuestionMapper.toDomain(question))
   }
 
   async create(question: Question): Promise<void> {
@@ -73,11 +71,9 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
   }
 
   async delete(question: Question): Promise<void> {
-    const data = PrismaQuestionMapper.toPrisma(question)
-
     await this.prisma.question.delete({
       where: {
-        id: data.id,
+        id: question.id.toString(),
       },
     })
   }
