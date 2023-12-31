@@ -5,7 +5,7 @@ import { Answer } from '../../enterprise/entities/answer'
 import { AnswersRepository } from '../repositories/answers-repository'
 import { ResourceNotFoundError } from 'src/core/errors/errors/resource-not-found-error'
 import { NotAllowedError } from 'src/core/errors/errors/not-allowed-error'
-import { AnswerAttachmentRepository } from '../repositories/answer-attachment-repository'
+import { AnswerAttachmentsRepository } from '../repositories/answer-attachments-repository'
 import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id'
@@ -28,7 +28,7 @@ type EditAnswerUseCaseResponse = Either<
 export class EditAnswerUseCase {
   constructor(
     private answerRepository: AnswersRepository,
-    private answerAttachmentRepository: AnswerAttachmentRepository,
+    private answerAttachmentRepository: AnswerAttachmentsRepository,
   ) {}
 
   async execute({
