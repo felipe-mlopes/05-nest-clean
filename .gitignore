@@ -39,6 +39,7 @@ data
 
 # Env
 .env
+.env.test
 
 # Storage
 /test/e2e
