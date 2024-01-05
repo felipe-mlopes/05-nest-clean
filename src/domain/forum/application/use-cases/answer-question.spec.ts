@@ -2,7 +2,10 @@ import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-r
 import { AnswerQuestionUseCase } from './answer-question'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
+import { makeStudent } from 'test/factories/make-student'
 
+let inMemoryStudentRepository: InMemoryStudentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let sut: AnswerQuestionUseCase
@@ -11,16 +14,22 @@ describe('Create Question', () => {
   beforeEach(() => {
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
+    inMemoryStudentRepository = new InMemoryStudentsRepository()
     inMemoryAnswersRepository = new InMemoryAnswersRepository(
       inMemoryAnswerAttachmentsRepository,
+      inMemoryStudentRepository,
     )
     sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
   })
 
   it('should be able to create an answer', async () => {
+    const student = makeStudent({ name: 'John Doe' })
+
+    inMemoryStudentRepository.create(student)
+
     const result = await sut.execute({
       questionId: '1',
-      authorId: '1',
+      authorId: student.id.toString(),
       content: 'Nova resposta',
       attachmentsIds: ['1', '2'],
     })
@@ -39,9 +48,13 @@ describe('Create Question', () => {
   })
 
   it('should persist attachments when creating a new answer', async () => {
+    const student = makeStudent({ name: 'John Doe' })
+
+    inMemoryStudentRepository.create(student)
+
     const result = await sut.execute({
       questionId: '1',
-      authorId: '1',
+      authorId: student.id.toString(),
       content: 'Conteúdo da resposta',
       attachmentsIds: ['1', '2'],
     })
