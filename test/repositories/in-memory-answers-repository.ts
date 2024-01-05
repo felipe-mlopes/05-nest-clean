@@ -3,12 +3,14 @@ import { PaginationParams } from 'src/core/repositories/pagination-params'
 import { AnswerAttachmentsRepository } from 'src/domain/forum/application/repositories/answer-attachments-repository'
 import { AnswersRepository } from 'src/domain/forum/application/repositories/answers-repository'
 import { Answer } from 'src/domain/forum/enterprise/entities/answer'
+import { InMemoryStudentsRepository } from './in-memory-students-repository'
 
 export class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = []
 
   constructor(
     private answerAttachmentsRepository: AnswerAttachmentsRepository,
+    private studentRepository: InMemoryStudentsRepository,
   ) {}
 
   async findById(id: string) {
