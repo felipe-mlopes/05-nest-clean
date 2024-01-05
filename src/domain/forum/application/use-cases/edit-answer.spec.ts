@@ -5,17 +5,21 @@ import { makeAnswer } from 'test/factories/make-answers'
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id'
 import { NotAllowedError } from 'src/core/errors/errors/not-allowed-error'
 import { makeAnswerAttachment } from 'test/factories/make-answer-attachment'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
 
+let inMemoryStudentRepository: InMemoryStudentsRepository
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswerRepository: InMemoryAnswersRepository
 let sut: EditAnswerUseCase
 
 describe('Edit Answer', () => {
   beforeEach(() => {
+    inMemoryStudentRepository = new InMemoryStudentsRepository()
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
     inMemoryAnswerRepository = new InMemoryAnswersRepository(
       inMemoryAnswerAttachmentsRepository,
+      inMemoryStudentRepository,
     )
     sut = new EditAnswerUseCase(
       inMemoryAnswerRepository,

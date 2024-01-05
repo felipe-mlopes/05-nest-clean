@@ -5,17 +5,26 @@ import { makeQuestion } from 'test/factories/make-questions'
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id'
 import { NotAllowedError } from 'src/core/errors/errors/not-allowed-error'
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repositor'
 
+let inMemoryStudentRepository: InMemoryStudentsRepository
 let inMemoryQuestionRepository: InMemoryQuestionsRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let sut: EditQuestionUseCase
 
 describe('Edit Question', () => {
   beforeEach(() => {
+    inMemoryStudentRepository = new InMemoryStudentsRepository()
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
+
     inMemoryQuestionRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryStudentRepository,
     )
     sut = new EditQuestionUseCase(
       inMemoryQuestionRepository,
