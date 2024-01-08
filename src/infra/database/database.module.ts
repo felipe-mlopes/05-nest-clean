@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 
+import { CacheModule } from '../cache/cache.module'
 import { PrismaService } from './prisma/prisma.service'
 
 import { PrismaQuestionsRepository } from './prisma/repositories/prisma-questions-repository'
@@ -10,6 +11,7 @@ import { PrismaAnswerCommentsRepository } from './prisma/repositories/prisma-ans
 import { PrismaAnswerAttachmentRepository } from './prisma/repositories/prisma-answer-attachments-repository'
 import { PrismaStudentsRepository } from './prisma/repositories/prisma-students-repository'
 import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments-repository'
+import { PrismaNotificationRepository } from './prisma/repositories/prisma-notification-repository'
 
 import { QuestionsRepository } from 'src/domain/forum/application/repositories/questions-repository'
 import { StudentsRepository } from 'src/domain/forum/application/repositories/students-repository'
@@ -19,8 +21,10 @@ import { AnswersRepository } from 'src/domain/forum/application/repositories/ans
 import { QuestionAttachmentsRepository } from 'src/domain/forum/application/repositories/question-attachments-repository'
 import { QuestionCommentsRepository } from 'src/domain/forum/application/repositories/question-comments-repository'
 import { AttachmentsRepository } from 'src/domain/forum/application/repositories/attachments-repository'
+import { NotificationsRepository } from 'src/domain/notification/application/repositories/notifications-repository'
 
 @Module({
+  imports: [CacheModule],
   providers: [
     PrismaService,
     {
@@ -55,6 +59,10 @@ import { AttachmentsRepository } from 'src/domain/forum/application/repositories
       provide: AttachmentsRepository,
       useClass: PrismaAttachmentsRepository,
     },
+    {
+      provide: NotificationsRepository,
+      useClass: PrismaNotificationRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -66,6 +74,7 @@ import { AttachmentsRepository } from 'src/domain/forum/application/repositories
     AnswerCommentsRepository,
     AnswerAttachmentsRepository,
     AttachmentsRepository,
+    NotificationsRepository,
   ],
 })
 export class DatabaseModule {}
